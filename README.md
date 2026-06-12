@@ -58,3 +58,13 @@ export MYSQL_ROOT_PASSWORD="strong_root_pass"
 export DB_PASSWORD="strong_glpi_pass"
 export SERVER_NAME="helpdesk.mydomain.com"
 export PHP_VERSION="8.2"  # GLPI 10.0.x требует PHP < 8.3
+
+
+# Скачать скрипт
+wget [https://raw.githubusercontent.com/your-repo/autoinstall-glpi.sh](https://github.com/ChunkyMonkey1337/glpi-autoinstall/blob/main/autoinstall-glpi.sh)
+
+# Сделать исполняемым
+chmod +x autoinstall-glpi.sh
+
+# Запустить от root
+sudo ./autoinstall-glpi.sh
