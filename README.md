@@ -45,3 +45,57 @@
 git clone https://github.com/ChunkyMonkey1337/glpi-autoinstall.git
 cd glpi-autoinstall
 chmod +x autoinstall-glpi.sh
+```
+
+Интерактивный режим
+
+Просто запустите скрипт. В процессе он попросит вас придумать и ввести пароли для MariaDB:
+```bash
+
+sudo ./autoinstall-glpi.sh
+```
+Неинтерактивный режим (Unattended)
+
+Идеально подходит для автоматического развертывания через Ansible, Terraform или bash-скрипты cloud-init. Передайте параметры через переменные окружения:
+```bash
+
+sudo MYSQL_ROOT_PASSWORD="SuperSecretRoot" \
+     DB_PASSWORD="GlpiSecretPassword" \
+     SERVER_NAME="helpdesk.mycompany.com" \
+     GLPI_VERSION="10.0.7" \
+     ./autoinstall-glpi.sh
+```
+Доступные переменные:
+Переменная	По умолчанию	Описание
+GLPI_VERSION	10.0.7	Версия GLPI для скачивания с GitHub.
+SERVER_NAME	glpi.local	Доменное имя для конфигурации Apache (VirtualHost).
+PHP_VERSION	8.2	Версия PHP.
+MYSQL_ROOT_PASSWORD	пуст	Пароль root от БД (если не указан, скрипт спросит).
+DB_PASSWORD	пуст	Пароль пользователя glpi для БД (если не указан, скрипт спросит).
+Дальнейшие шаги (После установки)
+
+    Откройте в браузере адрес, указанный в SERVER_NAME (например, http://glpi.local или IP сервера).
+
+    Выберите язык и запустите установку GLPI.
+
+    На этапе настройки базы данных укажите:
+
+        Сервер SQL: localhost
+
+        Пользователь SQL: glpi
+
+        Пароль SQL: Пароль, который вы ввели для переменной DB_PASSWORD (или указали при запуске).
+
+        База данных: Выберите glpi из списка.
+
+    После завершения мастера установки файл install/install.php будет удален системой автоматически.
+
+Рекомендации по HTTPS:
+По умолчанию скрипт настраивает HTTP (порт 80). Настоятельно рекомендуется установить SSL-сертификат (например, через Let's Encrypt / Certbot). После включения HTTPS раскомментируйте или добавьте строку session.cookie_secure = On в файле /etc/php/8.2/apache2/php.ini для повышения безопасности сессий.
+Логирование
+
+В случае возникновения проблем, подробный лог установки можно найти здесь:
+
+    Во время работы скрипта: /tmp/glpi-install.log
+
+    После завершения установки: /var/log/glpi-install.log
